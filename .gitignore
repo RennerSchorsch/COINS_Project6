@@ -13,3 +13,4 @@ hs_err_pid*
 
 #Mac Settings
 .DS_Store
+/test/complexityCalculator/target/
