@@ -1,15 +1,18 @@
+# class files
 *.class
 
-# Mobile Tools for Java (J2ME)
+# mobile tools for Java (J2ME)
 .mtj.tmp/
 
-# Package Files #
+# package Files #
 *.war
 *.ear
+
+# maven 
+*/target/
 
 # virtual machine crash logs, see http://www.java.com/en/download/help/error_hotspot.xml
 hs_err_pid*
 
 #Mac Settings
 .DS_Store
-/test/complexityCalculator/target/
