@@ -20,6 +20,7 @@ public class Text {
     private Map<String, Integer> textInfo;
     private Integer amountWords;
     private Integer amountSentence;
+    private Integer amountLetters;
     private double avgLetters;
     private double avgSentence;
     
@@ -57,12 +58,20 @@ public class Text {
         return amountSentence;
     }
     
-    public void setAvgLetters(String text){
-        avgLetters = 0;
+    public void setAmountLetters(String text){
+        amountLetters = 0;
     }
     
-    public Double getAvgLetters(){
+    public Integer getAmountLetters(){
         
+        return amountLetters;
+    }
+    
+    public void setAvgLetters(String text){    
+        avgLetters = getAmountLetters() / (getAmountWords() / 100);
+    }
+    
+    public Double getAvgLetters(){       
         return avgLetters;
     }
     
@@ -70,8 +79,7 @@ public class Text {
         avgSentence = 0;
     }
     
-    public double getAvgSentence(){
-        
+    public double getAvgSentence(){       
         return avgSentence;
     }
 }
