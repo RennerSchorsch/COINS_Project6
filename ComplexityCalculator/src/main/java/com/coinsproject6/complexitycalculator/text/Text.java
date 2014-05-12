@@ -10,6 +10,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 /**
+ * DRAFT - Erster Entwurf, es sind noch viele Anpassungen nötig!!
  * Komplexe Datenstruktur, die den Text mit allen nötigen Informationen repräsentiert.
  * 
  * @author Georg
@@ -26,12 +27,64 @@ public class Text {
     
     public Text(String text){
         this.text = text;
-        setTextInfo(text);
-        setAmountWords(text);
-        
+        anilyzeText(text);
     }
     
-    public void setTextInfo(String text){        
+    //TODO muss in eine extra Klasse ausgelagert werden, da komplexe Datenstruktur eigentlich nur Getter und Setter
+    private void anilyzeText(String text){
+        
+        String currentWord = "";
+        Integer wordsInSentence = 0;
+        
+        for (int i = 0; i < text.length();i++) {    
+            
+            //TODO Was passiert eigetnlich mit Nummern, die können doch eigentlich auch zur komplexität beitragen.
+            if(Character.isLetter(text.charAt(i))){
+                setAmountLetters(getAmountLetters()+1);
+                currentWord += text.charAt(i);
+                
+            } else {
+              
+                if(!currentWord.isEmpty()){  
+                    //hyphenCount += getWordHyphenCount(currentWord);
+                    wordsInSentence++;
+                    currentWord = "";
+                }
+                
+                if(isSentenceEnd(text.charAt(i))){
+                    setAmountSentence(getAmountSentence()+1);
+                    setAmountWords(getAmountWords()+wordsInSentence);
+                    wordsInSentence = 0;                               
+                }
+            }
+        }
+    }
+    
+    private boolean isSentenceEnd(char letter) {
+         
+        if ((33 == letter) || (46 == letter) || (63 == letter)) {
+            return true;
+        } else {
+            return false;
+        }
+         
+    }
+    
+    /*public int getWordHyphenCount(String word) {
+    
+        String hyphenatedWord = hp.hyphenate(word, 2, 3);
+        int hCount = 1;
+      
+            for (int i=0; i < hyphenatedWord.length(); i++) {
+                if (hyphenatedWord.charAt(i) == 173) {
+                        hCount++;
+                }
+            }
+        return hCount;
+        
+    }*/
+    
+    private void setTextInfo(String text){        
         textInfo = null;
     }
     
@@ -40,8 +93,8 @@ public class Text {
     return textInfo;
     }
     
-    public void setAmountWords(String text){   
-        amountWords = 0;
+    private void setAmountWords(Integer amount){   
+        amountWords = amount;
     }
     
     public Integer getAmountWords(){
@@ -49,8 +102,8 @@ public class Text {
         return amountWords;
     }
     
-    public void setAmountSentence(String text){
-        amountSentence = 0;
+    private void setAmountSentence(Integer amount){
+        amountSentence = amount;
     }
     
     public Integer getAmountSentence(){
@@ -58,15 +111,15 @@ public class Text {
         return amountSentence;
     }
     
-    public void setAmountLetters(String text){
-        amountLetters = 0;
+    private void setAmountLetters(Integer amount){
+        amountLetters = amount;
     }
     
     public Integer getAmountLetters(){      
         return amountLetters;
     }
     
-    public void setAvgLetters(String text){    
+    private void setAvgLetters(){    
         avgLetters = getAmountLetters() / (getAmountWords() / 100);
     }
     
@@ -74,7 +127,7 @@ public class Text {
         return avgLetters;
     }
     
-    public void setAvgSentence(String text){
+    private void setAvgSentence(){
         avgSentence = 0;
     }
     
