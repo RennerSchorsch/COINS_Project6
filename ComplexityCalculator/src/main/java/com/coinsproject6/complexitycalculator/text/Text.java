@@ -62,8 +62,7 @@ public class Text {
         amountLetters = 0;
     }
     
-    public Integer getAmountLetters(){
-        
+    public Integer getAmountLetters(){      
         return amountLetters;
     }
     

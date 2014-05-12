@@ -4,7 +4,7 @@
  * and open the template in the editor.
  */
 
-package com.coinsproject6.complexitycalculator.cli;
+package com.coinsproject6.complexitycalculator.scores;
 
 import com.coinsproject6.complexitycalculator.text.Text;
 
