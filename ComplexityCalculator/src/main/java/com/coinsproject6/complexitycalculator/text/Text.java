@@ -6,8 +6,10 @@
 
 package com.coinsproject6.complexitycalculator.text;
 
-import java.util.HashMap;
+import java.io.IOException;
 import java.util.Map;
+import net.davidashen.text.Hyphenator;
+import net.davidashen.util.ErrorHandler;
 
 /**
  * DRAFT - Erster Entwurf, es sind noch viele Anpassungen nötig!!
@@ -18,23 +20,33 @@ import java.util.Map;
 public class Text {
     
     private String text;
-    private Map<String, Integer> textInfo;
-    private Integer amountWords;
-    private Integer amountSentence;
-    private Integer amountLetters;
+    private int amountWords;
+    private int amountSentence;
+    private int amountLetters;
+    private int amountHypen;
     private double avgLetters;
-    private double avgSentence;
+    private double avgSentenceLength;
+    private double avgAmountSentence;
+    private double avgHypen;
     
     public Text(String text){
         this.text = text;
-        anilyzeText(text);
+        try{
+            anilyzeText(text);
+        } catch (IOException e){
+            System.err.println("Fehler beim Zählen der Sylben.");
+        }
+        setAvgHypen();
+        setAvgSentenceLength();
+        setAvgAmountSentence();
+        setAvgLetters();
     }
     
     //TODO muss in eine extra Klasse ausgelagert werden, da komplexe Datenstruktur eigentlich nur Getter und Setter
-    private void anilyzeText(String text){
+    private void anilyzeText(String text) throws IOException {
         
         String currentWord = "";
-        Integer wordsInSentence = 0;
+        int wordsInSentence = 0;
         
         for (int i = 0; i < text.length();i++) {    
             
@@ -46,7 +58,7 @@ public class Text {
             } else {
               
                 if(!currentWord.isEmpty()){  
-                    //hyphenCount += getWordHyphenCount(currentWord);
+                    amountHypen += getWordHyphenCount(currentWord);
                     wordsInSentence++;
                     currentWord = "";
                 }
@@ -70,8 +82,20 @@ public class Text {
          
     }
     
-    /*public int getWordHyphenCount(String word) {
+    public int getWordHyphenCount(String word) throws IOException{
     
+        Hyphenator hp = new net.davidashen.text.Hyphenator();
+        hp.setErrorHandler(new ErrorHandler() {
+        public void debug(String guard,String s) {}
+                public void info(String s) {System.err.println(s);}
+                public void warning(String s) {System.err.println("WARNING: "+s);}
+                public void error(String s) {System.err.println("ERROR: "+s);}
+                public void exception(String s,Exception e) {System.err.println("ERROR: "+s); e.printStackTrace(); }
+                public boolean isDebugged(String guard) {return false;}
+              });
+        
+        hp.loadTable(new java.io.BufferedInputStream(new java.io.FileInputStream("hyphen.tex")));
+        
         String hyphenatedWord = hp.hyphenate(word, 2, 3);
         int hCount = 1;
       
@@ -82,56 +106,71 @@ public class Text {
             }
         return hCount;
         
-    }*/
-    
-    private void setTextInfo(String text){        
-        textInfo = null;
     }
     
-    public Map<String, Integer> getTextInfo(){
-    
-    return textInfo;
-    }
-    
-    private void setAmountWords(Integer amount){   
+    private void setAmountWords(int amount){   
         amountWords = amount;
     }
     
-    public Integer getAmountWords(){
+    public int getAmountWords(){
         
         return amountWords;
     }
     
-    private void setAmountSentence(Integer amount){
+    private void setAmountSentence(int amount){
         amountSentence = amount;
     }
     
-    public Integer getAmountSentence(){
+    public int getAmountSentence(){
         
         return amountSentence;
     }
     
-    private void setAmountLetters(Integer amount){
+    private void setAmountLetters(int amount){
         amountLetters = amount;
     }
     
-    public Integer getAmountLetters(){      
+    public int getAmountLetters(){      
+        return amountLetters;
+    }
+    
+    private void setAmountHypen(int amount){
+        amountLetters = amount;
+    }
+    
+    public int getAmountHypen(){      
         return amountLetters;
     }
     
     private void setAvgLetters(){    
-        avgLetters = getAmountLetters() / (getAmountWords() / 100);
+        avgLetters = (double) amountLetters / ((double) amountWords / 100);
     }
     
     public Double getAvgLetters(){       
         return avgLetters;
     }
     
-    private void setAvgSentence(){
-        avgSentence = 0;
+    private void setAvgSentenceLength(){
+        avgSentenceLength = (double) amountWords / (double) amountSentence;
     }
     
-    public double getAvgSentence(){       
-        return avgSentence;
+    public double getAvgSentenceLength(){       
+        return avgSentenceLength;
+    }
+    
+    private void setAvgAmountSentence(){
+        avgAmountSentence = (double) amountSentence / ((double) amountWords / 100);
+    }
+    
+    public double getAvgAmountSentence(){       
+        return avgAmountSentence;
+    }
+    
+    private void setAvgHypen(){
+        avgHypen = (double) amountHypen / (double) amountWords;
+    }
+    
+    public double getAvgHypen(){       
+        return avgHypen;
     }
 }

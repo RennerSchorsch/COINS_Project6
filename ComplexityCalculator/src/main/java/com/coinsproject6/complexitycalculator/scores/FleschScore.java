@@ -17,7 +17,7 @@ public class FleschScore {
     private static double fleschScore;    
     
     public static double calculateFleschScore(Text textStructure){
-        fleschScore = 206.835 - (1.015 * textStructure.getAvgLengthSentence()) - (84.6 * textStructure.getAvgHypen());
+        fleschScore = 206.835 - (1.015 * textStructure.getAvgSentenceLength()) - (84.6 * textStructure.getAvgHypen());
         return fleschScore;
     }
     

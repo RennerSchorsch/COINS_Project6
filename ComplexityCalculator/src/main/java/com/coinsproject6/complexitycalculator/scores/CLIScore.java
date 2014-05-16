@@ -14,22 +14,8 @@ import com.coinsproject6.complexitycalculator.text.Text;
  */
 public class CLIScore {
     
-    private double cliScore;
-    private double avgLetters;
-    private double avgSentence;
-    
-    public CLIScore(Text textStucture){
-        
-        this.avgLetters = textStucture.getAvgLetters();
-        this.avgSentence = textStucture.getAvgSentence();
-        setCliScore();
+    public static double calculateCLIScore(Text sample){
+        return 0.0588 * sample.getAvgLetters() - 0.296 * sample.getAvgAmountSentence() - 15.8;
     }
-    
-    private void setCliScore(){
-        cliScore = 0.0588 * avgLetters - 0.296 * avgSentence - 15.8;
-    }
-    
-    public double getCLIScore(){
-        return cliScore;
-    }
+ 
 }
