@@ -20,10 +20,9 @@ public class Main {
     
     public static void main(String args[]) {
            
-            Text sample = new Text();
             TextAnalyzer analyzer = new TextAnalyzer();
             try{
-            sample = analyzer.analyzeText(sample, "Paste your sample text in the field below. A longer text provides a more accurate measurement. Select measurement method and click 'calculate score' to see the score for your text. The result is displayed below the form.");
+            Text sample = analyzer.analyzeText("Paste your sample text in the field below. A longer text provides a more accurate measurement. Select measurement method and click 'calculate score' to see the score for your text. The result is displayed below the form.");
             
             System.out.println("Anzahl Wörter: "+sample.getAmountWords());
             System.out.println("Anzahl an Silben: "+sample.getAmountHypen());

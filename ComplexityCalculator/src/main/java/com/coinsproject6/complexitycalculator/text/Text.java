@@ -24,6 +24,10 @@ public class Text {
     private double avgAmountSentence;
     private double avgHypen;
     
+    public Text(String text){
+        this.text = text;
+    }
+    
     public void setTextContent(String text){
         this.text = text;
     }

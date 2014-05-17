@@ -16,9 +16,9 @@ import net.davidashen.util.ErrorHandler;
  */
 public class TextAnalyzer {
     
-    public Text analyzeText(Text sample, String text) throws IOException {
+    public Text analyzeText(String text) throws IOException {
         
-        sample.setTextContent(text);
+        Text sample = new Text(text);
         
         String currentWord = "";
         int wordsInSentence = 0;
