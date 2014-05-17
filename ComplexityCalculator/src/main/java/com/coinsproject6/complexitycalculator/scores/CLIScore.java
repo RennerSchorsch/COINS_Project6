@@ -9,7 +9,8 @@ package com.coinsproject6.complexitycalculator.scores;
 import com.coinsproject6.complexitycalculator.text.Text;
 
 /**
- *
+ * Coleman–Liau index
+ * 
  * @author Georg
  */
 public class CLIScore {
