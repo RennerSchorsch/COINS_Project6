@@ -6,11 +6,6 @@
 
 package com.coinsproject6.complexitycalculator.text;
 
-import java.io.IOException;
-import java.util.Map;
-import net.davidashen.text.Hyphenator;
-import net.davidashen.util.ErrorHandler;
-
 /**
  * DRAFT - Erster Entwurf, es sind noch viele Anpassungen nötig!!
  * Komplexe Datenstruktur, die den Text mit allen nötigen Informationen repräsentiert.
@@ -42,6 +37,10 @@ public class Text {
     }
     
     public int getAmountWords(){
+        setAvgLetters();
+        setAvgSentenceLength();
+        setAvgAmountSentence();
+        setAvgHypen();
         
         return amountWords;
     }
@@ -51,6 +50,8 @@ public class Text {
     }
     
     public int getAmountSentence(){
+        setAvgSentenceLength();
+        setAvgAmountSentence();
         
         return amountSentence;
     }
@@ -60,6 +61,8 @@ public class Text {
     }
     
     public int getAmountLetters(){      
+        setAvgLetters();        
+        
         return amountLetters;
     }
     
@@ -67,7 +70,9 @@ public class Text {
         amountHypen = amount;
     }
     
-    public int getAmountHypen(){      
+    public int getAmountHypen(){  
+        setAvgHypen();
+        
         return amountHypen;
     }
     

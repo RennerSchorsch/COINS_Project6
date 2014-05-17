@@ -46,11 +46,6 @@ public class TextAnalyzer {
             }
         }
         
-        sample.setAvgAmountSentence();
-        sample.setAvgSentenceLength();
-        sample.setAvgLetters();
-        sample.setAvgHypen();
-        
         return sample;
     }
     

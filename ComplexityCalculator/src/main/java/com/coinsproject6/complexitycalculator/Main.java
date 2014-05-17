@@ -20,8 +20,6 @@ public class Main {
     
     public static void main(String args[]) {
            
-            String beispiel = "Paste your sample text in the field below. A longer text provides a more accurate measurement. Select measurement method and click 'calculate score' to see the score for your text. The result is displayed below the form.";
-        
             Text sample = new Text();
             TextAnalyzer analyzer = new TextAnalyzer();
             try{
