@@ -14,17 +14,14 @@ import com.coinsproject6.complexitycalculator.text.Text;
  */
 public class FleschScore {
     
-    private static double fleschScore;    
-    private static double fleschGrade;
-    
     public static double calculateFleschScore(Text textStructure){
-        fleschScore = 206.835 - (1.015 * textStructure.getAvgSentenceLength()) - (84.6 * textStructure.getAvgHypen());
-        return fleschScore;
+        double fleschScore = 206.835 - (1.015 * textStructure.getAvgSentenceLength()) - (84.6 * textStructure.getAvgHypen());
+        return Math.round(100.0 * fleschScore) / 100.0;
     }
     
     public static double calculateFleschGrade(Text textStructure){
-        fleschGrade = 0.39 * textStructure.getAvgSentenceLength() + 11.8 * textStructure.getAvgHypen() - 15.59;
-        return fleschGrade;
+        double fleschGrade = 0.39 * textStructure.getAvgSentenceLength() + 11.8 * textStructure.getAvgHypen() - 15.59;
+        return Math.round(100.0 * fleschGrade) / 100.0;
     }
     
 }
