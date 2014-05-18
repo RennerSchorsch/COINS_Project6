@@ -26,8 +26,8 @@ public class Main {
         TextAnalyzer analyzer = new TextAnalyzer();
         try {
             Reader reader = new Reader();
-            //List<String> content = reader.txtReader(new File("/Users/Georg/Documents/Uni/SNA_Seminar_2014/COINS_Project6/ComplexityCalculator/src/main/resources/tweetsNewark"));
-            List<String> content = reader.txtReader(new File("/Users/Georg/Documents/Uni/SNA_Seminar_2014/COINS_Project6/ComplexityCalculator/src/main/resources/tweetsRasBaraka"));
+            List<String> content = reader.txtReader(new File("/Users/Georg/Documents/Uni/SNA_Seminar_2014/COINS_Project6/ComplexityCalculator/src/main/resources/tweetsNewark"));
+            //List<String> content = reader.txtReader(new File("/Users/Georg/Documents/Uni/SNA_Seminar_2014/COINS_Project6/ComplexityCalculator/src/main/resources/tweetsRasBaraka"));
             List<Text> tweets = new ArrayList<Text>();
             double gesamtFleschScore = 0;
             double gesamtFleschGrade = 0;
