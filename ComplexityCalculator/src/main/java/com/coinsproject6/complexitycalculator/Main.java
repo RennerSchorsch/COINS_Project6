@@ -21,13 +21,22 @@ import readingCSV.Reader;
  */
 public class Main {
 
-    public static void main(String args[]) {
-
+    private static String defaultFile = "/Users/Georg/Documents/Uni/SNA_Seminar_2014/COINS_Project6/ComplexityCalculator/src/main/resources/tweetsRasBaraka";
+    
+    public static void main(String[] args) {
+        
+        String filename = "";
+        
+        if(args.length == 0){
+            filename = defaultFile;
+        } else {
+            filename = args[0];
+        }
+        
         TextAnalyzer analyzer = new TextAnalyzer();
         try {
             Reader reader = new Reader();
-            List<String> content = reader.txtReader(new File("/Users/Georg/Documents/Uni/SNA_Seminar_2014/COINS_Project6/ComplexityCalculator/src/main/resources/tweetsNewark"));
-            //List<String> content = reader.txtReader(new File("/Users/Georg/Documents/Uni/SNA_Seminar_2014/COINS_Project6/ComplexityCalculator/src/main/resources/tweetsRasBaraka"));
+            List<String> content = reader.txtReader(new File(filename));
             List<Text> tweets = new ArrayList<Text>();
             double gesamtFleschScore = 0;
             double gesamtFleschGrade = 0;
@@ -54,7 +63,12 @@ public class Main {
             System.out.println("Flesch Grade: " + FleschScore.calculateFleschGrade(sample));
             System.out.println("CLI Score: " + CLIScore.calculateCLIScore(sample));*/
 
+            int tmp = 0;
+            
             for (Text sample : tweets) {
+                tmp = tmp +1;
+                System.out.println(tmp + ": " + sample.getTextContent());
+                System.out.println(FleschScore.calculateFleschScore(sample));
                 gesamtFleschScore = gesamtFleschScore + FleschScore.calculateFleschScore(sample);
                 gesamtFleschGrade = gesamtFleschGrade + FleschScore.calculateFleschGrade(sample);
                 gesamtCLIScore = gesamtCLIScore + CLIScore.calculateCLIScore(sample);
