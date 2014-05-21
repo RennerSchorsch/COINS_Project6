@@ -57,6 +57,25 @@ public class TextAnalyzer {
 
         return sample;
     }
+    
+    /**
+     * This method is analysing a String and creating a new "Text" Object for the given String.
+     * The method is trying to measure the amount of letters, words, sentence, hypens and evertything else
+     * what the "Text" object requires. 
+     * 
+     * 
+     * 
+     * @param text A String which is represanting the text to analyse
+     * @return Text.class
+     */
+    public Text newAnalyzer(String text){
+        
+        Text sample = new Text(text);
+        
+        
+        
+        return sample;
+    }
 
     /**
      * 33 = !
@@ -65,6 +84,8 @@ public class TextAnalyzer {
      * 58 = :
      * 59 = ;
      * 
+     * Checking if the current char is the end of a sentence. Semicolon and doublepoint
+     * is for us a end, too.
      * 
      * @param letter
      * @return 
