@@ -14,27 +14,42 @@ package com.coinsproject6.complexitycalculator.text;
 public class Text {
 
     private String text;
+    private String rawText;
     private int amountWords;
     private int amountSentence;
     private int amountLetters;
-    private int amountHypen;
+    private int amountHyphen;
     private double avgLetters;
     private double avgSentenceLength;
     private double avgAmountSentence;
-    private double avgHypen;
-
+    private double avgHyphen;
+    
+    private int amountHyperlinks;
+    private int amountReferences;
+   
+      
     public Text(String text) {
-        this.text = text;
+         this.rawText = text;
+         clearText();
     }
 
     public void setTextContent(String text) {
-        this.text = text;
+        this.rawText = text;
+        clearText();
+    }
+    
+
+
+    public String getRawTextContent() {
+        return rawText;
     }
 
-    public String getTextContent() {
-        return text;
+    public String getTextContent() {      
+        return text;      
     }
-
+    
+    
+    
     public void setAmountWords(int amount) {
         amountWords = amount;
     }
@@ -59,12 +74,12 @@ public class Text {
         return amountLetters;
     }
 
-    public void setAmountHypen(int amount) {
-        amountHypen = amount;
+    public void setAmountHyphen(int amount) {
+        amountHyphen = amount;
     }
 
-    public int getAmountHypen() {
-        return amountHypen;
+    public int getAmountHyphen() {
+        return amountHyphen;
     }
 
     public void setAvgLetters() {
@@ -97,13 +112,90 @@ public class Text {
         return avgAmountSentence;
     }
 
-    public void setAvgHypen() {
-        avgHypen = (double) amountHypen / (double) amountWords;
+    public void setAvgHyphen() {
+        avgHyphen = (double) amountHyphen / (double) amountWords;
     }
 
-    public double getAvgHypen() {
+    public double getAvgHyphen() {
         
-        setAvgHypen();
-        return avgHypen;
+        setAvgHyphen();
+        return avgHyphen;
+    }
+    
+ 
+    private void clearText() {
+    
+        this.text = rawText;
+        clearHyperlinks();
+        clearReferences();
+        removeHashSymbols();
+     
+    }
+    
+    // method for removing hash-signs in twitter (only removes the "#"-character, not the whole string)
+    private void removeHashSymbols () {
+        
+        text = text.replaceAll("#", "");    
+    }
+    
+    
+    // method for removing all twitter-references (strings beginning with "@"-character, removes whole string)
+    private void clearReferences(){
+        
+        String clearedText = "";
+        amountReferences = 0;
+        Boolean ignoreUntilNextSpace = false;
+        
+        for (int i = 0; i < text.length(); i++) {
+               
+            if (text.charAt(i) == "@".charAt(0)) {
+                ignoreUntilNextSpace = true;
+                amountReferences++;    
+            }
+            
+            else if (text.charAt(i) == " ".charAt(0)) {
+                ignoreUntilNextSpace = false;
+            }
+            
+            if (!ignoreUntilNextSpace) {
+                clearedText += text.charAt(i);
+            }
+        }
+        
+        this.text = clearedText;
+        
+    }
+    
+    
+    
+    // method for removing hyperlinks (removes whole string beginning with http until next space-character)
+    private void clearHyperlinks() {
+        
+        String clearedText = "";
+        amountHyperlinks = 0;
+        Boolean ignoreUntilNextSpace = false;
+        
+        for (int i = 0; i < text.length()-4; i++) {
+               
+            if (text.charAt(i) == "h".charAt(0)) {
+                if (text.charAt(i+1) == "t".charAt(0)) {
+                    if (text.charAt(i+2) == "t".charAt(0)) {
+                        if (text.charAt(i+3) == "p".charAt(0)) {
+                            ignoreUntilNextSpace = true;
+                            amountHyperlinks++;
+                        }
+                    }
+                }
+            }
+            else if (text.charAt(i) == " ".charAt(0)) {
+                ignoreUntilNextSpace = false;
+            }
+            
+             if (!ignoreUntilNextSpace) {
+                clearedText += text.charAt(i);
+            }
+        }
+        
+        this.text = clearedText;
     }
 }
