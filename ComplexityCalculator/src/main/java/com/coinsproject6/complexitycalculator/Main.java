@@ -21,7 +21,7 @@ import readingCSV.Reader;
  */
 public class Main {
 
-    private static String defaultFile = "/Users/Georg/Documents/Uni/SNA_Seminar_2014/COINS_Project6/ComplexityCalculator/src/main/resources/tweetsRasBaraka";
+    private static String defaultFile = "C:\\Users\\tobeflow\\Dropbox\\COINs_Project_Team6\\Java\\git_version\\COINS_Project6\\ComplexityCalculator\\src\\main\\resources\\tweetsRasBaraka";
     
     public static void main(String[] args) {
         
@@ -67,11 +67,13 @@ public class Main {
             
             for (Text sample : tweets) {
                 tmp = tmp +1;
+             
                 System.out.println(tmp + ": " + sample.getTextContent());
                 System.out.println(FleschScore.calculateFleschScore(sample));
                 gesamtFleschScore = gesamtFleschScore + FleschScore.calculateFleschScore(sample);
                 gesamtFleschGrade = gesamtFleschGrade + FleschScore.calculateFleschGrade(sample);
                 gesamtCLIScore = gesamtCLIScore + CLIScore.calculateCLIScore(sample);
+               
             }
 
             System.out.println("Durchschnitt Flesch Score: " + gesamtFleschScore/content.size());
@@ -79,10 +81,12 @@ public class Main {
             System.out.println("Durchschnitt CLI Score: " + gesamtCLIScore/content.size());
 
         } catch (IOException e) {
-            System.err.println("Fehler beim analysieren des Textes. " + e.getMessage());
+            System.err.println("Fehler beim Analysieren des Textes. " + e.getMessage());
         } catch (NullPointerException e) {
-            System.err.println("Fehler beim analysieren des Textes. " + e.getMessage());
+            System.err.println("Fehler beim Analysieren des Textes. " + e.getMessage());
         }
     }
+    
+  
 
 }
