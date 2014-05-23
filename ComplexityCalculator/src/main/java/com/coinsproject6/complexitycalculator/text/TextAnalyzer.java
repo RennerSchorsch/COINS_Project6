@@ -42,7 +42,7 @@ public class TextAnalyzer {
             } else {
 
                 if (!currentWord.isEmpty()) {
-                    sample.setAmountHypen(sample.getAmountHypen() + getWordHyphenCount(currentWord));
+                    sample.setAmountHyphen(sample.getAmountHyphen() + getWordHyphenCount(currentWord));
                     wordsInSentence++;
                     currentWord = "";
                 }
