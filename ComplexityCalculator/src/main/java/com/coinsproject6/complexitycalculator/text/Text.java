@@ -6,8 +6,12 @@
 package com.coinsproject6.complexitycalculator.text;
 
 /**
- * DRAFT - Erster Entwurf, es sind noch viele Anpassungen nötig!! Komplexe
- * Datenstruktur, die den Text mit allen nötigen Informationen repräsentiert.
+ * (Translatation into English) Eine komplexe Datenstruktur, die den auf Kopmlexität zu untersuchenden Text
+ * mit allen Information darstellt. 
+ * ACHTUNG: Es sind nur Setter und Getter für die Informationen, alle Logik muss
+ * durch eine zweite Klasse sichergestellt werden. Es werden somit auch keine
+ * Überprüfungen auf Richtikeit des Inhalts getätigt.
+ * 
  *
  * @author Georg
  */
@@ -19,37 +23,33 @@ public class Text {
     private int amountSentence;
     private int amountLetters;
     private int amountHyphen;
+    private int amountHyperlinks;
+    private int amountReferences;
     private double avgLetters;
     private double avgSentenceLength;
     private double avgAmountSentence;
     private double avgHyphen;
-    
-    private int amountHyperlinks;
-    private int amountReferences;
-   
-      
-    public Text(String text) {
-         this.rawText = text;
-         clearText();
+
+    public Text(String rawText) {
+        this.rawText = rawText;
     }
 
     public void setTextContent(String text) {
-        this.rawText = text;
-        clearText();
+        this.text = text;
     }
-    
 
+    public String getTextContent() {
+        return text;
+    }
+
+    public void setRawTextContent(String rawText) {
+        this.rawText = rawText;
+    }
 
     public String getRawTextContent() {
         return rawText;
     }
 
-    public String getTextContent() {      
-        return text;      
-    }
-    
-    
-    
     public void setAmountWords(int amount) {
         amountWords = amount;
     }
@@ -82,12 +82,28 @@ public class Text {
         return amountHyphen;
     }
 
+    public void setAmountReferences(int amount){
+        amountReferences = amount;
+    }
+    
+    public int getAmountReferences() {
+        return amountReferences;
+    }
+
+    public void setAmountHyperlinks(int amount){
+        amountHyperlinks = amount;
+    }
+    
+    public int getAmountHyperlinks() {
+        return amountHyperlinks;
+    }
+
     public void setAvgLetters() {
         avgLetters = (double) amountLetters / ((double) amountWords / 100);
     }
 
     public Double getAvgLetters() {
-        
+
         setAvgLetters();
         return avgLetters;
     }
@@ -97,7 +113,7 @@ public class Text {
     }
 
     public double getAvgSentenceLength() {
-        
+
         setAvgSentenceLength();
         return avgSentenceLength;
     }
@@ -107,7 +123,7 @@ public class Text {
     }
 
     public double getAvgAmountSentence() {
-        
+
         setAvgAmountSentence();
         return avgAmountSentence;
     }
@@ -117,85 +133,8 @@ public class Text {
     }
 
     public double getAvgHyphen() {
-        
+
         setAvgHyphen();
         return avgHyphen;
-    }
-    
- 
-    private void clearText() {
-    
-        this.text = rawText;
-        clearHyperlinks();
-        clearReferences();
-        removeHashSymbols();
-     
-    }
-    
-    // method for removing hash-signs in twitter (only removes the "#"-character, not the whole string)
-    private void removeHashSymbols () {
-        
-        text = text.replaceAll("#", "");    
-    }
-    
-    
-    // method for removing all twitter-references (strings beginning with "@"-character, removes whole string)
-    private void clearReferences(){
-        
-        String clearedText = "";
-        amountReferences = 0;
-        Boolean ignoreUntilNextSpace = false;
-        
-        for (int i = 0; i < text.length(); i++) {
-               
-            if (text.charAt(i) == "@".charAt(0)) {
-                ignoreUntilNextSpace = true;
-                amountReferences++;    
-            }
-            
-            else if (text.charAt(i) == " ".charAt(0)) {
-                ignoreUntilNextSpace = false;
-            }
-            
-            if (!ignoreUntilNextSpace) {
-                clearedText += text.charAt(i);
-            }
-        }
-        
-        this.text = clearedText;
-        
-    }
-    
-    
-    
-    // method for removing hyperlinks (removes whole string beginning with http until next space-character)
-    private void clearHyperlinks() {
-        
-        String clearedText = "";
-        amountHyperlinks = 0;
-        Boolean ignoreUntilNextSpace = false;
-        
-        for (int i = 0; i < text.length()-4; i++) {
-               
-            if (text.charAt(i) == "h".charAt(0)) {
-                if (text.charAt(i+1) == "t".charAt(0)) {
-                    if (text.charAt(i+2) == "t".charAt(0)) {
-                        if (text.charAt(i+3) == "p".charAt(0)) {
-                            ignoreUntilNextSpace = true;
-                            amountHyperlinks++;
-                        }
-                    }
-                }
-            }
-            else if (text.charAt(i) == " ".charAt(0)) {
-                ignoreUntilNextSpace = false;
-            }
-            
-             if (!ignoreUntilNextSpace) {
-                clearedText += text.charAt(i);
-            }
-        }
-        
-        this.text = clearedText;
     }
 }

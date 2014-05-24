@@ -15,80 +15,88 @@ import net.davidashen.util.ErrorHandler;
  */
 public class TextAnalyzer {
 
-    public Text analyzeText(String text) throws IOException {
+    private String regex = "\\b(https?|ftp|file)://[-a-zA-Z0-9+&@#/%?=~_|!:,.;]*[-a-zA-Z0-9+&@#/%=~_|]";
 
-        Text sample = new Text(text);
+    /**
+     * This method is analysing a String and creating a new "Text" Object for
+     * the given String. The method is trying to measure the amount of letters,
+     * words, sentence, hypens and evertything else what the "Text" object
+     * requires.
+     *
+     *
+     *
+     * @param rawText A String which is represanting the text to analyse
+     * @return Text.class
+     */
+    public Text analyzeText(String rawText) throws IOException {
 
+        Character currentCharacter;
         String currentWord = "";
-        int wordsInSentence = 0;
+        int wordAmountInSentence = 0;
+        Text sample = new Text(rawText);
+        cleanText(sample);
 
         for (int i = 0; i < sample.getTextContent().length(); i++) {
 
-            //TODO Was passiert eigetnlich mit Nummern, die können doch eigentlich auch zur komplexität beitragen.
-            if (Character.isLetter(sample.getTextContent().charAt(i))) {
-                sample.setAmountLetters(sample.getAmountLetters() + 1);
-                currentWord += sample.getTextContent().charAt(i);
+            currentCharacter = sample.getTextContent().charAt(i);
+
+            if (Character.isLetter(currentCharacter)) {
+                //Berechnung für Buchstaben durchführen
+                currentWord += currentCharacter;
+
+                addAmountLetters(sample, 1);
 
                 if (i + 1 >= sample.getTextContent().length()) {
-                    sample.setAmountSentence(sample.getAmountSentence() + 1);
-                    sample.setAmountWords(sample.getAmountWords() + wordsInSentence);
-                    wordsInSentence = 0;
+                    wordAmountInSentence++;
+                    addAmountWords(sample, wordAmountInSentence);
+                    addAmountHyphen(sample, currentWord);
+                    addAmountSentence(sample, 1);
 
-                    sample.setAmountSentence(sample.getAmountSentence() + 1);
-                    sample.setAmountWords(sample.getAmountWords() + wordsInSentence);
-                    wordsInSentence = 0;
-                }
-
-            } else {
-
-                if (!currentWord.isEmpty()) {
-                    sample.setAmountHyphen(sample.getAmountHyphen() + getWordHyphenCount(currentWord));
-                    wordsInSentence++;
+                    wordAmountInSentence = 0;
                     currentWord = "";
                 }
+            } else if (Character.isDigit(currentCharacter)) {
+                // Berechnung für Zahlen durchführen
+                currentWord += currentCharacter;
 
-                if (isSentenceEnd(sample.getTextContent().charAt(i))) {
-                    sample.setAmountSentence(sample.getAmountSentence() + 1);
-                    sample.setAmountWords(sample.getAmountWords() + wordsInSentence);
-                    wordsInSentence = 0;
+                addAmountLetters(sample, 1);
+            } else if ((Character.isWhitespace(currentCharacter)) && (!currentWord.isEmpty())) {
+                // Berechnung für Leerzeichen durchführen
+                wordAmountInSentence++;
+                addAmountHyphen(sample, currentWord);
+
+                currentWord = "";
+            } else if ((isSentenceEnd(currentCharacter))) {
+                // Berechnung für Satzende durchführen
+                if (!currentWord.isEmpty()) {
+                    wordAmountInSentence++;
+                    addAmountWords(sample, wordAmountInSentence);
+                    addAmountHyphen(sample, currentWord);
+                    addAmountSentence(sample, 1);
+
+                    currentWord = "";
+                } else if (currentWord.isEmpty() && (wordAmountInSentence != 0)) {
+                    addAmountWords(sample, wordAmountInSentence);
+                    addAmountSentence(sample, 1);
                 }
+
+                wordAmountInSentence = 0;
+            } else {
+                //Sonderfall Behandlung
             }
         }
 
         return sample;
     }
-    
-    /**
-     * This method is analysing a String and creating a new "Text" Object for the given String.
-     * The method is trying to measure the amount of letters, words, sentence, hypens and evertything else
-     * what the "Text" object requires. 
-     * 
-     * 
-     * 
-     * @param text A String which is represanting the text to analyse
-     * @return Text.class
-     */
-    public Text newAnalyzer(String text){
-        
-        Text sample = new Text(text);
-        
-        
-        
-        return sample;
-    }
 
     /**
-     * 33 = !
-     * 46 = .
-     * 63 = ?
-     * 58 = :
-     * 59 = ;
-     * 
-     * Checking if the current char is the end of a sentence. Semicolon and doublepoint
-     * is for us a end, too.
-     * 
+     * 33 = ! 46 = . 63 = ? 58 = : 59 = ;
+     *
+     * Checking if the current char is the end of a sentence. Semicolon and
+     * doublepoint is for us a end, too.
+     *
      * @param letter
-     * @return 
+     * @return
      */
     private boolean isSentenceEnd(char letter) {
 
@@ -100,6 +108,49 @@ public class TextAnalyzer {
 
     }
 
+    /**
+     * 
+     * @param sample
+     * @param amount 
+     */
+    private void addAmountLetters(Text sample, int amount) {
+        sample.setAmountLetters(sample.getAmountLetters() + amount);
+    }
+
+    /**
+     * 
+     * @param sample
+     * @param amount 
+     */
+    private void addAmountWords(Text sample, int amount) {
+        sample.setAmountWords(sample.getAmountWords() + amount);
+    }
+
+    /**
+     * 
+     * @param sample
+     * @param amount 
+     */
+    private void addAmountSentence(Text sample, int amount) {
+        sample.setAmountSentence(sample.getAmountSentence() + amount);
+    }
+
+    /**
+     * 
+     * @param sample
+     * @param currentWord
+     * @throws IOException 
+     */
+    private void addAmountHyphen(Text sample, String currentWord) throws IOException {
+        sample.setAmountHyphen(sample.getAmountHyphen() + getWordHyphenCount(currentWord));
+    }
+
+    /**
+     *
+     * @param word
+     * @return
+     * @throws IOException
+     */
     private int getWordHyphenCount(String word) throws IOException {
 
         Hyphenator hp = new net.davidashen.text.Hyphenator();
@@ -141,6 +192,84 @@ public class TextAnalyzer {
         }
         return hCount;
 
+    }
+
+    /**
+     *
+     * @param rawText
+     * @param sample
+     */
+    private void cleanText(Text sample) {
+
+        String currentVersion = sample.getRawTextContent();
+
+        currentVersion = clearHyperlinks(currentVersion, sample);
+        currentVersion = clearReferences(currentVersion, sample);
+        currentVersion = removeHashSymbols(currentVersion, sample);
+        currentVersion = currentVersion.trim();
+        sample.setTextContent(currentVersion);
+
+    }
+
+    /**
+     * method for removing hash-signs in twitter (only removes the
+     * "#"-character, not the whole string)
+     *
+     * @param text
+     * @param sample
+     * @return
+     */
+    private String removeHashSymbols(String text, Text sample) {
+
+        return text.replaceAll("#", "");
+    }
+
+    /**
+     * method for removing all twitter-references (strings beginning with
+     * "@"-character, removes whole string)
+     *
+     * @param text
+     * @param sample
+     * @return
+     */
+    private String clearReferences(String text, Text sample) {
+
+        String clearedText = "";
+        int amountReferences = 0;
+        sample.setAmountReferences(amountReferences);
+        Boolean ignoreUntilNextSpace = false;
+
+        for (int i = 0; i < text.length(); i++) {
+
+            if (text.charAt(i) == '@') {
+                ignoreUntilNextSpace = true;
+                amountReferences++;
+            } else if (text.charAt(i) == ' ') {
+                ignoreUntilNextSpace = false;
+            }
+
+            if (!ignoreUntilNextSpace) {
+                clearedText += text.charAt(i);
+            }
+        }
+
+        sample.setAmountReferences(amountReferences);
+        return clearedText;
+
+    }
+
+    /**
+     * method for removing hyperlinks (removes whole string beginning with http
+     * until next space-character)
+     *
+     * @param text
+     * @param sample
+     * @return
+     */
+    private String clearHyperlinks(String text, Text sample) {
+
+        //TODO Es möglich machen, dass hierdurch auch die Anzahl an Regex gezählt wird.
+        return text.replaceAll(regex, "");
     }
 
 }

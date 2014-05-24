@@ -21,13 +21,14 @@ import readingCSV.Reader;
  */
 public class Main {
 
-    private static String defaultFile = "/Users/Georg/Documents/Uni/SNA_Seminar_2014/COINS_Project6/ComplexityCalculator/src/main/resources/tweetsRasBaraka";
-    
+    private static String defaultFile = System.getProperty("user.dir")+"/src/main/resources/tweetsRasBaraka";
+    private static boolean analyse = true;
+
     public static void main(String[] args) {
-        
+
         String filename = "";
-        
-        if(args.length == 0){
+
+        if (args.length == 0) {
             filename = defaultFile;
         } else {
             filename = args[0];
@@ -48,35 +49,36 @@ public class Main {
                 tweets.add(analyzer.analyzeText(tmp));
             }
 
-            /*Text sample = analyzer.analyzeText("RT @errollouis: Hope this all works out");
-            //Election is called for newark election. Waiting for the victory speech.");
-            // + "Paste your sample text in the field below. A longer text provides a more accurate measurement. Select measurement method and click 'calculate score' to see the score for your text. The result is displayed below the form.");
-            System.out.println("Anzahl Wörter: " + sample.getAmountWords());
-            System.out.println("Anzahl an Silben: " + sample.getAmountHypen());
-            System.out.println("Anzahl an Sätzen: " + sample.getAmountSentence());
-            System.out.println("Anzahl der durchschnittlichen Satzlänge: " + sample.getAvgSentenceLength());
-            System.out.println("Anuahl der durchschnittlichen Anzahl an Silben: " + sample.getAvgHypen());
-            System.out.println("Anzahl an Buchstaben: " + sample.getAmountLetters());
-            System.out.println("Durchschnittliche Anzahl an Buchstaben pro 100 Wörter: " + sample.getAvgLetters());
-            System.out.println("################################################");
-            System.out.println("Flesch Score: " + FleschScore.calculateFleschScore(sample));
-            System.out.println("Flesch Grade: " + FleschScore.calculateFleschGrade(sample));
-            System.out.println("CLI Score: " + CLIScore.calculateCLIScore(sample));*/
-
             int tmp = 0;
-            
+
             for (Text sample : tweets) {
-                tmp = tmp +1;
-                System.out.println(tmp + ": " + sample.getTextContent());
-                System.out.println(FleschScore.calculateFleschScore(sample));
+                tmp = tmp + 1;
+                
+                if (analyse == true) {
+                    System.out.println(tmp + ": " + sample.getTextContent());
+                    System.out.println("Anzahl Wörter: " + sample.getAmountWords());
+                    System.out.println("Anzahl an Silben: " + sample.getAmountHyphen());
+                    System.out.println("Anzahl an Sätzen: " + sample.getAmountSentence());
+                    System.out.println("Anzahl der durchschnittlichen Satzlänge: " + sample.getAvgSentenceLength());
+                    System.out.println("Anuahl der durchschnittlichen Anzahl an Silben: " + sample.getAvgHyphen());
+                    System.out.println("Anzahl an Buchstaben: " + sample.getAmountLetters());
+                    System.out.println("Durchschnittliche Anzahl an Buchstaben pro 100 Wörter: " + sample.getAvgLetters());
+                    System.out.println("Anzahl an Referenzen: " + sample.getAmountReferences());
+                    System.out.println("Anzahl an Hyperlinks: " + sample.getAmountHyperlinks());
+                    System.out.println("################################################");
+                    System.out.println("Flesch Score: " + FleschScore.calculateFleschScore(sample));
+                    System.out.println("Flesch Grade: " + FleschScore.calculateFleschGrade(sample));
+                    System.out.println("CLI Score: " + CLIScore.calculateCLIScore(sample));
+                    System.out.println("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
+                }
                 gesamtFleschScore = gesamtFleschScore + FleschScore.calculateFleschScore(sample);
                 gesamtFleschGrade = gesamtFleschGrade + FleschScore.calculateFleschGrade(sample);
                 gesamtCLIScore = gesamtCLIScore + CLIScore.calculateCLIScore(sample);
             }
 
-            System.out.println("Durchschnitt Flesch Score: " + gesamtFleschScore/content.size());
-            System.out.println("Durchschnitt Flesch Grade: " + gesamtFleschGrade/content.size());
-            System.out.println("Durchschnitt CLI Score: " + gesamtCLIScore/content.size());
+            System.out.println("Durchschnitt Flesch Score: " + gesamtFleschScore / content.size());
+            System.out.println("Durchschnitt Flesch Grade: " + gesamtFleschGrade / content.size());
+            System.out.println("Durchschnitt CLI Score: " + gesamtCLIScore / content.size());
 
         } catch (IOException e) {
             System.err.println("Fehler beim analysieren des Textes. " + e.getMessage());
