@@ -136,7 +136,13 @@ public class Text {
         this.text = rawText;
         clearHyperlinks();
         clearReferences();
-        replaceHashesWithGoogleSuggest();
+        
+        removeHashSymbols();
+        
+    /*  this method is working correctly, but generates many network requests to google servers, 
+        so that access gets blocked after a few hundred calls */
+        
+    //    replaceHashesWithGoogleSuggest();
      
     }
     
