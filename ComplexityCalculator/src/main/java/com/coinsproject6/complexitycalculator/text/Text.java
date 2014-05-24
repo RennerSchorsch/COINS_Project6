@@ -5,6 +5,7 @@
  */
 package com.coinsproject6.complexitycalculator.text;
 
+
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
