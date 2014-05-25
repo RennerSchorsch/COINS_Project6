@@ -137,4 +137,17 @@ public class Text {
         setAvgHyphen();
         return avgHyphen;
     }
+    
+    public boolean isEmpty() {
+        
+        if (text == null) {
+            return true;
+        }
+        else {
+            if (text.equals("")) {
+                return true;
+            }
+        }
+        return false;
+    }
 }

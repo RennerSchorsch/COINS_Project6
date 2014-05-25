@@ -54,7 +54,7 @@ public class Main {
             for (Text sample : tweets) {
                 tmp = tmp + 1;
                 
-                if (analyse == true) {
+                if ((analyse == true) && (!sample.isEmpty())) {
                     System.out.println(tmp + ": " + sample.getTextContent());
                     System.out.println("Anzahl Wörter: " + sample.getAmountWords());
                     System.out.println("Anzahl an Silben: " + sample.getAmountHyphen());
