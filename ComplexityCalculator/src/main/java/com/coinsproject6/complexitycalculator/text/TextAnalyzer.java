@@ -45,31 +45,11 @@ public class TextAnalyzer {
                 currentWord += currentCharacter;
 
                 addAmountLetters(sample, 1);
-
-                if (i + 1 >= sample.getTextContent().length()) {
-                    wordAmountInSentence++;
-                    addAmountWords(sample, wordAmountInSentence);
-                    addAmountHyphen(sample, currentWord);
-                    addAmountSentence(sample, 1);
-
-                    wordAmountInSentence = 0;
-                    currentWord = "";
-                }
             } else if (Character.isDigit(currentCharacter)) {
                 // Berechnung für Zahlen durchführen
                 currentWord += currentCharacter;
 
                 addAmountLetters(sample, 1);
-                
-                if (i + 1 >= sample.getTextContent().length()) {
-                    wordAmountInSentence++;
-                    addAmountWords(sample, wordAmountInSentence);
-                    addAmountHyphen(sample, currentWord);
-                    addAmountSentence(sample, 1);
-
-                    wordAmountInSentence = 0;
-                    currentWord = "";
-                }
             } else if ((Character.isWhitespace(currentCharacter)) && (!currentWord.isEmpty())) {
                 // Berechnung für Leerzeichen durchführen
                 wordAmountInSentence++;
@@ -94,6 +74,20 @@ public class TextAnalyzer {
             } else {
                 //Sonderfall Behandlung
             }
+
+            if ((i + 1 >= sample.getTextContent().length())&&(!isSentenceEnd(currentCharacter))) {
+                
+                if(!currentWord.isEmpty()){
+                    wordAmountInSentence++;
+                    addAmountHyphen(sample, currentWord);
+                }
+                
+                addAmountWords(sample, wordAmountInSentence);                
+                addAmountSentence(sample, 1);
+                wordAmountInSentence = 0;
+                currentWord = "";
+            }
+
         }
 
         return sample;
@@ -110,7 +104,7 @@ public class TextAnalyzer {
      */
     private boolean isSentenceEnd(char letter) {
 
-        if ((33 == letter) || (46 == letter) || (63 == letter) || (58 == letter) || (59 == letter)) {
+        if ((33 == letter) || (46 == letter) || (63 == letter) || (59 == letter)) {
             return true;
         } else {
             return false;
@@ -119,40 +113,44 @@ public class TextAnalyzer {
     }
 
     /**
-     * 
+     *
      * @param sample
-     * @param amount 
+     * @param amount
      */
     private void addAmountLetters(Text sample, int amount) {
         sample.setAmountLetters(sample.getAmountLetters() + amount);
     }
 
     /**
-     * 
+     *
      * @param sample
-     * @param amount 
+     * @param amount
      */
     private void addAmountWords(Text sample, int amount) {
         sample.setAmountWords(sample.getAmountWords() + amount);
     }
 
     /**
-     * 
+     *
      * @param sample
-     * @param amount 
+     * @param amount
      */
     private void addAmountSentence(Text sample, int amount) {
         sample.setAmountSentence(sample.getAmountSentence() + amount);
     }
 
     /**
-     * 
+     *
      * @param sample
      * @param currentWord
-     * @throws IOException 
+     * @throws IOException
      */
     private void addAmountHyphen(Text sample, String currentWord) throws IOException {
-        sample.setAmountHyphen(sample.getAmountHyphen() + getWordHyphenCount(currentWord));
+        int tmpHyphen = getWordHyphenCount(currentWord);
+        if(tmpHyphen >= 3){
+            sample.setAmountComplexSyllablesWords(sample.getAmountComplexSyllablesWords()+1);
+        }
+        sample.setAmountHyphen(sample.getAmountHyphen() + tmpHyphen);
     }
 
     /**

@@ -5,8 +5,6 @@
  */
 package com.coinsproject6.complexitycalculator;
 
-import com.coinsproject6.complexitycalculator.scores.CLIScore;
-import com.coinsproject6.complexitycalculator.scores.FleschScore;
 import com.coinsproject6.complexitycalculator.text.Text;
 import com.coinsproject6.complexitycalculator.text.TextAnalyzer;
 import java.io.File;
@@ -25,8 +23,8 @@ public class Main {
 
     private static final Logger logger = Logger.getLogger(Main.class);
 
-    private static String defaultFile = System.getProperty("user.dir") + "/src/main/resources/com/coinsproject6/complexitycalculator/tweets/tweetsRasBaraka";
-    private static boolean analyse = true;
+    private static String rootFile = System.getProperty("user.dir") + "/src/main/resources/com/coinsproject6/complexitycalculator/tweets/";
+    private static String defaultFile = rootFile + "tweetsRasBaraka";
 
     public static void main(String[] args) {
 
@@ -50,7 +48,7 @@ public class Main {
                 tweets.add(analyzer.analyzeText(tmp));
             }
 
-            ScoreCalculatorEN.calculateTextComplexity(tweets);
+            logger.info(ScoreCalculatorEN.calculateTextComplexity(tweets));
 
         } catch (IOException e) {
             logger.error("Fehler beim analysieren des Textes. " + e.getMessage());
