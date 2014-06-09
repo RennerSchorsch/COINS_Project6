@@ -4,7 +4,7 @@
  * and open the template in the editor.
  */
 
-package readingCSV;
+package com.coinsproject6.complexitycalculator.readingCSV;
 
 import java.io.BufferedReader;
 import java.io.File;

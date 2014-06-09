@@ -13,7 +13,9 @@ import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
-import readingCSV.Reader;
+import com.coinsproject6.complexitycalculator.readingCSV.Reader;
+import com.coinsproject6.complexitycalculator.scores.ScoreCalculatorEN;
+import org.apache.log4j.Logger;
 
 /**
  *
@@ -21,7 +23,9 @@ import readingCSV.Reader;
  */
 public class Main {
 
-    private static String defaultFile = System.getProperty("user.dir")+"/src/main/resources/tweetsRasBaraka";
+    private static final Logger logger = Logger.getLogger(Main.class);
+
+    private static String defaultFile = System.getProperty("user.dir") + "/src/main/resources/com/coinsproject6/complexitycalculator/tweets/tweetsRasBaraka";
     private static boolean analyse = true;
 
     public static void main(String[] args) {
@@ -33,59 +37,25 @@ public class Main {
         } else {
             filename = args[0];
         }
-        
+
         TextAnalyzer analyzer = new TextAnalyzer();
         try {
             Reader reader = new Reader();
             List<String> content = reader.txtReader(new File(filename));
             List<Text> tweets = new ArrayList<Text>();
-            double gesamtFleschScore = 0;
-            double gesamtFleschGrade = 0;
-            double gesamtCLIScore = 0;
 
-            System.out.println("Anzahl der Tweets: " + content.size());
+            logger.info("Anzahl der Tweets: " + content.size());
 
             for (String tmp : content) {
                 tweets.add(analyzer.analyzeText(tmp));
             }
 
-            int tmp = 0;
-
-            for (Text sample : tweets) {
-                tmp = tmp + 1;
-                
-                if (!sample.isEmpty()) {
-                    if (analyse) {
-                        System.out.println(tmp + ": " + sample.getTextContent());
-                        System.out.println("    Anzahl Wörter: " + sample.getAmountWords());
-                        System.out.println("    Anzahl Silben: " + sample.getAmountHyphen());
-                        System.out.println("     Anzahl Sätze: " + sample.getAmountSentence());
-                        System.out.println("Anzahl Buchstaben: " + sample.getAmountLetters());
-                        System.out.println("    Durchschnittliche Satzlänge: " + sample.getAvgSentenceLength());
-                        System.out.println("Durchschnittliche Anzahl Silben: " + sample.getAvgHyphen());
-                        System.out.println("Durchschnittliche Anzahl Buchstaben pro 100 Wörter: " + sample.getAvgLetters());
-                        System.out.println("Anzahl Referenzen: " + sample.getAmountReferences());
-                        System.out.println("Anzahl Hyperlinks: " + sample.getAmountHyperlinks());
-                        System.out.println("##########################################################");
-                        System.out.println("Flesch Score: " + FleschScore.calculateFleschScore(sample));
-                        System.out.println("Flesch Grade: " + FleschScore.calculateFleschGrade(sample));
-                        System.out.println("CLI Score: " + CLIScore.calculateCLIScore(sample));
-                        System.out.println("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
-                    }
-                    gesamtFleschScore = gesamtFleschScore + FleschScore.calculateFleschScore(sample);
-                    gesamtFleschGrade = gesamtFleschGrade + FleschScore.calculateFleschGrade(sample);
-                    gesamtCLIScore = gesamtCLIScore + CLIScore.calculateCLIScore(sample);
-                }
-            }
-
-            System.out.println("Durchschnitt Flesch Score: " + gesamtFleschScore / content.size());
-            System.out.println("Durchschnitt Flesch Grade: " + gesamtFleschGrade / content.size());
-            System.out.println("Durchschnitt CLI Score: " + gesamtCLIScore / content.size());
+            ScoreCalculatorEN.calculateTextComplexity(tweets);
 
         } catch (IOException e) {
-            System.err.println("Fehler beim analysieren des Textes. " + e.getMessage());
+            logger.error("Fehler beim analysieren des Textes. " + e.getMessage());
         } catch (NullPointerException e) {
-            System.err.println("Fehler beim analysieren des Textes. " + e.getMessage());
+            logger.error("Fehler beim analysieren des Textes. " + e.getMessage());
         }
     }
 

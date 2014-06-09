@@ -60,6 +60,16 @@ public class TextAnalyzer {
                 currentWord += currentCharacter;
 
                 addAmountLetters(sample, 1);
+                
+                if (i + 1 >= sample.getTextContent().length()) {
+                    wordAmountInSentence++;
+                    addAmountWords(sample, wordAmountInSentence);
+                    addAmountHyphen(sample, currentWord);
+                    addAmountSentence(sample, 1);
+
+                    wordAmountInSentence = 0;
+                    currentWord = "";
+                }
             } else if ((Character.isWhitespace(currentCharacter)) && (!currentWord.isEmpty())) {
                 // Berechnung für Leerzeichen durchführen
                 wordAmountInSentence++;

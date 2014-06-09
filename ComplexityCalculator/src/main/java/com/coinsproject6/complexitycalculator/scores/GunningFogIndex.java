@@ -9,14 +9,14 @@ package com.coinsproject6.complexitycalculator.scores;
 import com.coinsproject6.complexitycalculator.text.Text;
 
 /**
- * Coleman–Liau index
- * 
+ *
  * @author Georg
  */
-public class CLIScore {
+public class GunningFogIndex {
     
-    public static double calculateCLIScore(Text sample){
-        double cliScore = 0.0588 * sample.getAvgLetters() - 0.296 * sample.getAvgAmountSentence() - 15.8;
-        return Math.round(100.0 * cliScore) / 100.0;
+    public static double calculateGunningFogIndex(Text sample){
+        
+        double gunningFogIndex = 0.4 * ((sample.getAmountWords() / sample.getAmountSentence()) + 100 * (sample.getAmountComplexSyllablesWords() / sample.getAmountWords()));
+        return gunningFogIndex;
     }
 }

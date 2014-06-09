@@ -25,6 +25,8 @@ public class Text {
     private int amountHyphen;
     private int amountHyperlinks;
     private int amountReferences;
+    private int amountSingleSyllablesWords;
+    private int amountComplexSyllablesWords;
     private double avgLetters;
     private double avgSentenceLength;
     private double avgAmountSentence;
@@ -92,6 +94,22 @@ public class Text {
 
     public void setAmountHyperlinks(int amount){
         amountHyperlinks = amount;
+    }
+    
+    public int getAmountSingleSyllablesWords(){
+        return amountSingleSyllablesWords;
+    }
+    
+    public void setAmountSingleSyllablesWords(int amount){
+        amountSingleSyllablesWords = amount;
+    }
+    
+    public int getAmountComplexSyllablesWords(){
+        return amountComplexSyllablesWords;
+    }
+    
+    public void setAmountComplexSyllablesWords(int amount){
+        amountComplexSyllablesWords = amount;
     }
     
     public int getAmountHyperlinks() {
