@@ -13,6 +13,7 @@ import java.util.ArrayList;
 import java.util.List;
 import com.coinsproject6.complexitycalculator.readingCSV.Reader;
 import com.coinsproject6.complexitycalculator.scores.ScoreCalculatorEN;
+import java.net.URL;
 import org.apache.log4j.Logger;
 
 /**
@@ -23,17 +24,20 @@ public class Main {
 
     private static final Logger logger = Logger.getLogger(Main.class);
 
-    private static String rootFile = System.getProperty("user.dir") + "/src/main/resources/com/coinsproject6/complexitycalculator/tweets/";
-    private static String defaultFile = rootFile + "tweetsRasBaraka";
-
+    private static String tweetsPath = "/tweets";
+    private static String defaultFile =  tweetsPath + "/tweetsRasBaraka";
+    
     public static void main(String[] args) {
 
         String filename = "";
+        logger.info("Start der Komplexitätsberechnung.");
 
         if (args.length == 0) {
-            filename = defaultFile;
+            filename = Main.class.getResource(defaultFile).getPath();
+            logger.info("Keine Parameter. Filename: " + filename);
         } else {
             filename = args[0];
+            logger.info("Mit Parameter. Filename: " + filename);
         }
 
         TextAnalyzer analyzer = new TextAnalyzer();

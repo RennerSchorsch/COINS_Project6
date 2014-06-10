@@ -6,13 +6,14 @@
 
 package com.coinsproject6.complexitycalculator.readingCSV;
 
+import com.coinsproject6.complexitycalculator.Main;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Set;
+import org.apache.log4j.Logger;
 
 /**
  *
@@ -20,8 +21,11 @@ import java.util.Set;
  */
 public class Reader {
     
-    public List<String> txtReader(File file) throws IOException, NullPointerException {
+    private static final Logger logger = Logger.getLogger(Reader.class);
+    
+    public List<String> txtReader(File file) throws IOException {
         
+        logger.info("Einzulesnde File: " + file.getPath());
         BufferedReader input = new BufferedReader(new FileReader(file));
         String zeile;
         List<String> content = new ArrayList<String>();
@@ -31,7 +35,8 @@ public class Reader {
 	}
         
         if(content.isEmpty()){
-            throw new NullPointerException();
+            logger.error("Keine Daten in der Datei vorhanden.");
+            throw new IOException();                 
         } else {
             return content;
         }
