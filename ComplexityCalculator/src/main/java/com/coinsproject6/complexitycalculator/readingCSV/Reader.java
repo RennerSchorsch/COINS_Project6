@@ -25,7 +25,6 @@ public class Reader {
     
     public List<String> txtReader(File file) throws IOException {
         
-        logger.info("Einzulesnde File: " + file.getPath());
         BufferedReader input = new BufferedReader(new FileReader(file));
         String zeile;
         List<String> content = new ArrayList<String>();
@@ -35,11 +34,30 @@ public class Reader {
 	}
         
         if(content.isEmpty()){
-            logger.error("Keine Daten in der Datei vorhanden.");
+            logger.error("No data could read from the file. (" + file.getName() + ")");
             throw new IOException();                 
         } else {
             return content;
         }
+    }
+    
+    public String rowReader(File file) throws IOException {
+        
+        BufferedReader input = new BufferedReader(new FileReader(file));
+        String zeile;
+        String content = "";
+        
+        while((zeile = input.readLine()) != null){
+            content = content + " " + zeile;
+        }
+        
+        if(content.isEmpty()){
+        logger.error("No data could read from the file. (" + file.getName() + ")");
+            throw new IOException();                 
+        } else {
+            return content;
+        }
+        
     }
     
 }

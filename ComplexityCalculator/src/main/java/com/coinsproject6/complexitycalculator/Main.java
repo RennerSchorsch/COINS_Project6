@@ -13,7 +13,6 @@ import java.util.ArrayList;
 import java.util.List;
 import com.coinsproject6.complexitycalculator.readingCSV.Reader;
 import com.coinsproject6.complexitycalculator.scores.ScoreCalculatorEN;
-import java.net.URL;
 import org.apache.log4j.Logger;
 
 /**
@@ -24,9 +23,10 @@ public class Main {
 
     private static final Logger logger = Logger.getLogger(Main.class);
 
-    private static String tweetsPath = "/tweets";
-    private static String defaultFile =  tweetsPath + "/tweetsRasBaraka";
-    
+    private static String tweetsPath = "/benchmarking";
+    private static String defaultFile = tweetsPath + "/Leicht.txt";
+    private static boolean zeilenDokumente = false;
+
     public static void main(String[] args) {
 
         String filename = "";
@@ -35,24 +35,44 @@ public class Main {
         if (args.length == 0) {
             filename = Main.class.getResource(defaultFile).getPath();
             logger.info("Keine Parameter. Filename: " + filename);
-        } else {
+        } else if (args.length == 1){
             filename = args[0];
             logger.info("Mit Parameter. Filename: " + filename);
+        } else if (args.length >= 2){
+            filename = args[0];
+            logger.info("Mit Parameter. Filename: " + filename);
+            if(args[1].equalsIgnoreCase("true")){
+                zeilenDokumente = true;
+            } else if (args[1].equalsIgnoreCase("false")){
+                zeilenDokumente = false;
+            } else {
+                logger.error("Wrong parameter decleration. The default parameters will be used");
+                zeilenDokumente = false;
+            }            
         }
 
         TextAnalyzer analyzer = new TextAnalyzer();
         try {
             Reader reader = new Reader();
-            List<String> content = reader.txtReader(new File(filename));
-            List<Text> tweets = new ArrayList<Text>();
 
-            logger.info("Anzahl der Tweets: " + content.size());
+            if (zeilenDokumente) {
 
-            for (String tmp : content) {
-                tweets.add(analyzer.analyzeText(tmp));
+                List<String> content = reader.txtReader(new File(filename));
+                List<Text> tweets = new ArrayList<Text>();
+                logger.info("Anzahl der Tweets: " + content.size());
+
+                for (String tmp : content) {
+                    tweets.add(analyzer.analyzeText(tmp));
+                }
+
+                logger.info("Complexity of the given Tweets: " + ScoreCalculatorEN.calculateTextComplexity(tweets));
+            } else {
+                
+                String content = reader.rowReader(new File(filename));
+                
+                Text tweets = analyzer.analyzeText(content);
+                logger.info("Complexity of the given text: " + ScoreCalculatorEN.calculateTextComplexity(tweets));
             }
-
-            logger.info(ScoreCalculatorEN.calculateTextComplexity(tweets));
 
         } catch (IOException e) {
             logger.error("Fehler beim analysieren des Textes. " + e.getMessage());
