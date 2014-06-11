@@ -49,7 +49,7 @@ public class ScoreCalculatorEN {
             
             logger.debug("End of the calculating.");
 
-            return (ari + cli + fs + gfi) / 4;
+            return (ari + cli + (fs * 2) + gfi) / 5;
         } else {
             throw new IOException();
         }

@@ -17,6 +17,6 @@ public class GunningFogIndex {
     public static double calculateGunningFogIndex(Text sample){
         
         double gunningFogIndex = 0.4 * ((sample.getAmountWords() / sample.getAmountSentence()) + 100 * (sample.getAmountComplexSyllablesWords() / sample.getAmountWords()));
-        return gunningFogIndex;
+        return Math.round(100.0 * gunningFogIndex) / 100.0;
     }
 }

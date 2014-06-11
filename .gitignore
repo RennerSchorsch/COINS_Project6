@@ -4,7 +4,7 @@
 # mobile tools for Java (J2ME)
 .mtj.tmp/
 
-# package Files #
+# package files
 *.war
 *.ear
 
@@ -16,3 +16,6 @@ hs_err_pid*
 
 #Mac Settings
 .DS_Store
+
+#log files
+*.log

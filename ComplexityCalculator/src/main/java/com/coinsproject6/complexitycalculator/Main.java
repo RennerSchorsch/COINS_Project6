@@ -24,7 +24,7 @@ public class Main {
     private static final Logger logger = Logger.getLogger(Main.class);
 
     private static String tweetsPath = "/benchmarking";
-    private static String defaultFile = tweetsPath + "/Leicht.txt";
+    private static String defaultFile = tweetsPath + "/Schwer.txt";
     private static boolean zeilenDokumente = false;
 
     public static void main(String[] args) {
