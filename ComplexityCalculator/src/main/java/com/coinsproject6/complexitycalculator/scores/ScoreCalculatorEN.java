@@ -46,15 +46,17 @@ public class ScoreCalculatorEN {
             logger.debug("FS: " + fs);
             logger.debug("Gfi: " + gfi);
             logger.debug("##################################");
-            
+
             logger.debug("End of the calculating.");
 
+            //calculating the score for the given text with the weight of
+            // ari = 1 ### cli = 1 ### fs = 2 ### gif = 1
             return (ari + cli + (fs * 2) + gfi) / 5;
         } else {
+            logger.error("Error with the tweet: " + sample.getTextContent());
             throw new IOException();
         }
 
-        
     }
 
     public static double calculateTextComplexity(List<Text> samples) throws IOException {
@@ -62,7 +64,11 @@ public class ScoreCalculatorEN {
         double tmp = 0.00;
 
         for (Text sample : samples) {
-            tmp = tmp + calculateTextComplexity(sample);
+            if (!sample.getTextContent().isEmpty()) {
+                tmp = tmp + calculateTextComplexity(sample);
+            } else {
+                samples.remove(sample);
+            }
         }
 
         return tmp / samples.size();
