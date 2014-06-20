@@ -14,6 +14,11 @@ import com.coinsproject6.complexitycalculator.text.Text;
  */
 public class GunningFogIndex {
     
+    /**
+     * 
+     * @param sample
+     * @return 
+     */
     public static double calculateGunningFogIndex(Text sample){
         
         double gunningFogIndex = 0.4 * ((sample.getAmountWords() / sample.getAmountSentence()) + 100 * (sample.getAmountComplexSyllablesWords() / sample.getAmountWords()));

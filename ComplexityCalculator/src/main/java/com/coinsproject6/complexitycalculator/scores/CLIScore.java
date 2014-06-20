@@ -15,6 +15,11 @@ import com.coinsproject6.complexitycalculator.text.Text;
  */
 public class CLIScore {
     
+    /**
+     * 
+     * @param sample
+     * @return 
+     */
     public static double calculateCLIScore(Text sample){
         double cliScore = 0.0588 * sample.getAvgLetters() - 0.296 * sample.getAvgAmountSentence() - 15.8;
         return Math.round(100.0 * cliScore) / 100.0;

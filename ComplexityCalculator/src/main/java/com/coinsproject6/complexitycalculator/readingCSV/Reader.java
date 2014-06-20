@@ -6,7 +6,6 @@
 
 package com.coinsproject6.complexitycalculator.readingCSV;
 
-import com.coinsproject6.complexitycalculator.Main;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
@@ -23,6 +22,12 @@ public class Reader {
     
     private static final Logger logger = Logger.getLogger(Reader.class);
     
+    /**
+     * 
+     * @param file
+     * @return
+     * @throws IOException 
+     */
     public List<String> txtReader(File file) throws IOException {
         
         BufferedReader input = new BufferedReader(new FileReader(file));
@@ -41,6 +46,12 @@ public class Reader {
         }
     }
     
+    /**
+     * 
+     * @param file
+     * @return
+     * @throws IOException 
+     */
     public String rowReader(File file) throws IOException {
         
         BufferedReader input = new BufferedReader(new FileReader(file));

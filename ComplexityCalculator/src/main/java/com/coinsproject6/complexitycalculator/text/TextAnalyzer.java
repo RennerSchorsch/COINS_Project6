@@ -18,6 +18,7 @@ public class TextAnalyzer {
     private String regex = "\\b(https?|ftp|file)://[-a-zA-Z0-9+&@#/%?=~_|!:,.;]*[-a-zA-Z0-9+&@#/%=~_|]";
     private String hyphenPath = "/hyphen";
     private String hypenFile = hyphenPath + "/hyphen.tex";
+    
     /**
      * This method is analysing a String and creating a new "Text" Object for
      * the given String. The method is trying to measure the amount of letters,

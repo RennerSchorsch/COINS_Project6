@@ -18,7 +18,13 @@ import org.apache.log4j.Logger;
 public class ScoreCalculatorEN {
 
     private static final Logger logger = Logger.getLogger(ScoreCalculatorEN.class);
-
+    
+    /**
+     * 
+     * @param sample
+     * @return
+     * @throws IOException 
+     */
     public static double calculateTextComplexity(Text sample) throws IOException {
 
         logger.debug("Starting the calculating of the complexity score.");
@@ -59,6 +65,12 @@ public class ScoreCalculatorEN {
 
     }
 
+    /**
+     * 
+     * @param samples
+     * @return
+     * @throws IOException 
+     */
     public static double calculateTextComplexity(List<Text> samples) throws IOException {
 
         double tmp = 0.00;
